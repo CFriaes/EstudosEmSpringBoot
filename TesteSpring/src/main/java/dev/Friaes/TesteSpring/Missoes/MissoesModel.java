@@ -15,7 +15,7 @@ public class MissoesModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; // id não precisa de métodos getter e setter, já que será administrado pela notation "@Generated Value"
     private String nomeMissao;
-    private RankMissao rankMissao;
+    private String rankMissao;
 
     @OneToMany
     private List<NinjaModel> ninjas;
