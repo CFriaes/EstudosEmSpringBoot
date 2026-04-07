@@ -1,4 +1,4 @@
 package dev.Friaes.TesteSpring.Ninja;
 
-public class NinjaRepository {
+public interface NinjaRepository {
 }
