@@ -1,9 +1,16 @@
 package dev.Friaes.TesteSpring.Ninja;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
-@RequestMapping("ninja")
+@RequestMapping("/ninja")
 public class NinjaController {
+
+    private NinjaService ninjaService;
+
+    public NinjaController(NinjaService ninjaService) {
+        this.ninjaService = ninjaService;
+    }
 
     @GetMapping("/boasvindas")
     public String boasVinda(){
@@ -18,14 +25,8 @@ public class NinjaController {
 
     //Mostrar Ninja Por ID (Read)
     @GetMapping("/todosID")
-    public String mostrarNinjas(){
-        return "Aqui se mostram os ninjas por ID";
-    }
-
-    //Mostrar Todos os Ninjas (Read)
-    @GetMapping("/todos")
-    public String mostrarTodosOsNinjas(){
-        return "Aqui se mostram todos os Ninjas";
+    public List<NinjaModel> listarNinjas(){
+        return ninjaService.listarNinjas();
     }
 
     //Alterar dados dos Ninjas (Update)

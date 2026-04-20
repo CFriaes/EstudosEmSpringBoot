@@ -1,12 +1,16 @@
 package dev.Friaes.TesteSpring.Missoes;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.Friaes.TesteSpring.Ninja.NinjaModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_missoes")
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class MissoesModel {

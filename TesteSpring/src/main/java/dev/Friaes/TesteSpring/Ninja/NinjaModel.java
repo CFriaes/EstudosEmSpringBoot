@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 
 //a partir do momento que eu utilizo a notaation @Entity em uma classe, a mesma se torna em uma entidade do DB
 //JPA = Java Pesistance API
-@Entity
 @Table(name = "tb_ninja")
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
+@Entity
 public class NinjaModel {
 
     @Id //A variável abaixo do ID, nesse caso, long id, será utilizada como id na aplicação

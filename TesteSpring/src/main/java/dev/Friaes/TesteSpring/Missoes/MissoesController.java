@@ -1,10 +1,16 @@
 package dev.Friaes.TesteSpring.Missoes;
-
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("missoes")
+@RequestMapping("/missoes")
 public class MissoesController {
+
+    private MissoesService missoesService;
+
+    public MissoesController(MissoesService missoesService) {
+        this.missoesService = missoesService;
+    }
 
     @PostMapping("/criar")
     public String criarMissao(){
@@ -23,7 +29,7 @@ public class MissoesController {
 
     //Manda uma requisição para o banco de Dados para mostrar todas as missoes cadastradas
     @GetMapping("/listar")
-    public String listarMissoes(){
-        return "Missoes listadas com sucesso";
+    public List<MissoesModel> listarMissoes(){
+        return missoesService.listarMissoes();
     }
 }
