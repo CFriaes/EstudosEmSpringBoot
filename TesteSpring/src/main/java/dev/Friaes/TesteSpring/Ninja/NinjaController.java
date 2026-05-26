@@ -18,15 +18,20 @@ public class NinjaController {
     }
 
     //Adicionar Ninja (Create)
-    @PostMapping("/adicionarNinja")
-    public String adicionarNinja(){
-        return "Aqui você adiciona um ninja";
+    @PostMapping("/criar")
+    public NinjaModel criarNinja(@RequestBody NinjaModel ninja){
+        return ninjaService.criarNinja(ninja);
     }
 
-    //Mostrar Ninja Por ID (Read)
-    @GetMapping("/todosID")
+    //Mostrar Todos os Ninjas (Read)
+    @GetMapping("/todos")
     public List<NinjaModel> listarNinjas(){
         return ninjaService.listarNinjas();
+    }
+
+    @GetMapping("/listar/{id}")
+    public NinjaModel listarPorID(@PathVariable Long id){
+        return ninjaService.listarNinjasPorID(id);
     }
 
     //Alterar dados dos Ninjas (Update)
@@ -36,9 +41,11 @@ public class NinjaController {
     }
 
     //Deletar Ninja (Delete)
-    @DeleteMapping("/deletarID")
-    public String deletarNinjaPorID(){
-        return "Aqui se deletam os Ninjas por ID";
+    @DeleteMapping("/deletar/{id}") //Método precisa ser void, adinal de contas não irá retornar nada ao usuário
+    public void deletarNinjaPorID(@PathVariable Long id){
+        ninjaService.deletarNinjaPorID(id);
     }
+
+
 
 }
