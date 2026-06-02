@@ -32,7 +32,7 @@ public class NinjaService {
 
     public NinjaModel criarNinja(NinjaModel ninja){
 
-        if (ninja.getMissao() != null && ninja.getMissao().getId() != null){
+        if (ninja.getMissao() != null && ninja.getMissao().getId() != null){ //Tipos primitivos não podem ser comparado com null
             Long missaoId = ninja.getMissao().getId();
 
             MissoesModel missaoDoBanco = missoesRepository.findById(missaoId)
@@ -49,4 +49,11 @@ public class NinjaService {
         repository.deleteById(id);
     }
 
+    public NinjaModel alterarNinja(Long id, NinjaModel ninjaAtualizado){
+        if(repository.existsById(id)){
+            ninjaAtualizado.setId(id);
+            return repository.save(ninjaAtualizado);
+        }
+        return null;
+    }
 }
