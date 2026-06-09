@@ -34,7 +34,10 @@ public class NinjaModel {
     @Column (name = "idade", nullable = true)
     private Integer idade;
 
-    @ManyToOne//Um ninja só pode ter 1 missão
+    @Column(name = "rank")
+    private String rank;
+
+    @ManyToOne //Um ninja só pode ter 1 missão
     @JoinColumn(name = "missoes_id")
     @JsonManagedReference
     private MissoesModel missao;
