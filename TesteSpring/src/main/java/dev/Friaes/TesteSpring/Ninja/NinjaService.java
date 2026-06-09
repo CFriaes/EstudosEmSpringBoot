@@ -12,14 +12,14 @@ import java.util.Optional;
 public class NinjaService {
 
     private MissoesRepository missoesRepository;
-
     private NinjaRepository repository;
+    private NinjaMapper ninjaMapper;
 
-    public NinjaService(NinjaRepository repository, MissoesRepository missoesRepository) {
-        this.repository = repository;
+    public NinjaService(MissoesRepository missoesRepository, NinjaRepository repository, NinjaMapper ninjaMapper) {
         this.missoesRepository = missoesRepository;
+        this.repository = repository;
+        this.ninjaMapper = ninjaMapper;
     }
-
 
     public List<NinjaModel> listarNinjas() {
         return repository.findAll();
@@ -30,19 +30,22 @@ public class NinjaService {
         return ninjaPorID.orElse(null);
     }
 
-    public NinjaModel criarNinja(NinjaModel ninja){
+    public NinjaDTO criarNinja(NinjaDTO ninjaDTO){
 
-        if (ninja.getMissao() != null && ninja.getMissao().getId() != null){ //Tipos primitivos não podem ser comparado com null
-            Long missaoId = ninja.getMissao().getId();
+        if (ninjaDTO.getMissao() != null && ninjaDTO.getMissao().getId() != null){ //Tipos primitivos não podem ser comparado com null
+            Long missaoId = ninjaDTO.getMissao().getId();
 
             MissoesModel missaoDoBanco = missoesRepository.findById(missaoId)
                     .orElseThrow(() -> new IllegalArgumentException("Erro: A missão com o ID " + missaoId + " não existe no banco de dados!"));
 
-            ninja.setMissao(missaoDoBanco);
+            ninjaDTO.setMissao(missaoDoBanco);
         }else{
-            ninja.setMissao(null);
+            ninjaDTO.setMissao(null);
         }
-        return repository.save(ninja);
+
+        NinjaModel ninja = ninjaMapper.map(ninjaDTO);
+        ninja = repository.save(ninja);
+        return ninjaMapper.map(ninja);
     }
 
     public void deletarNinjaPorID(Long id){
