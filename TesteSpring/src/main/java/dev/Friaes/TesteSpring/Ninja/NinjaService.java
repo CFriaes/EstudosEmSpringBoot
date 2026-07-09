@@ -7,22 +7,25 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NinjaService {
 
-    private MissoesRepository missoesRepository;
+
     private NinjaRepository repository;
     private NinjaMapper ninjaMapper;
 
-    public NinjaService(MissoesRepository missoesRepository, NinjaRepository repository, NinjaMapper ninjaMapper) {
-        this.missoesRepository = missoesRepository;
+    public NinjaService(NinjaRepository repository, NinjaMapper ninjaMapper) {
         this.repository = repository;
         this.ninjaMapper = ninjaMapper;
     }
 
-    public List<NinjaModel> listarNinjas() {
-        return repository.findAll();
+    public List<NinjaDTO> listarNinjas() {
+        List<NinjaModel> ninjas = repository.findAll();
+        return ninjas.stream()
+                .map(ninjaMapper::map)
+                .toList(); //Java 16
     }
 
     public NinjaModel listarNinjasPorID(Long id){
@@ -31,18 +34,6 @@ public class NinjaService {
     }
 
     public NinjaDTO criarNinja(NinjaDTO ninjaDTO){
-
-        if (ninjaDTO.getMissao() != null && ninjaDTO.getMissao().getId() != null){ //Tipos primitivos não podem ser comparado com null
-            Long missaoId = ninjaDTO.getMissao().getId();
-
-            MissoesModel missaoDoBanco = missoesRepository.findById(missaoId)
-                    .orElseThrow(() -> new IllegalArgumentException("Erro: A missão com o ID " + missaoId + " não existe no banco de dados!"));
-
-            ninjaDTO.setMissao(missaoDoBanco);
-        }else{
-            ninjaDTO.setMissao(null);
-        }
-
         NinjaModel ninja = ninjaMapper.map(ninjaDTO);
         ninja = repository.save(ninja);
         return ninjaMapper.map(ninja);
@@ -52,11 +43,15 @@ public class NinjaService {
         repository.deleteById(id);
     }
 
-    public NinjaModel alterarNinja(Long id, NinjaModel ninjaAtualizado){
-        if(repository.existsById(id)){
-            ninjaAtualizado.setId(id);
-            return repository.save(ninjaAtualizado);
+    public NinjaDTO alterarNinja(Long id, NinjaDTO ninjaAtualizado) {
+        Optional<NinjaModel> verificarID = repository.findById(id);
+        if(verificarID.isPresent()){
+            NinjaModel ninja = ninjaMapper.map(ninjaAtualizado);
+            ninja.setId(id);
+            NinjaModel ninjaSalvo = repository.save(ninja);
+            return ninjaMapper.map(ninjaSalvo);
+        } else {
+            return null;
         }
-        return null;
     }
 }

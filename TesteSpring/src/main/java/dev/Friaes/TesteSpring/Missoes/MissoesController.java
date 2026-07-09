@@ -7,28 +7,27 @@ import org.springframework.web.bind.annotation.*;
 public class MissoesController {
 
     private MissoesService missoesService;
-
     public MissoesController(MissoesService missoesService) {
         this.missoesService = missoesService;
     }
 
-    @PostMapping("/criar")
+    @PostMapping("/criarMissao")
     public String criarMissao(){
         return "Missão criada com Sucesso";
     }
 
-    @PutMapping("/alterar")
+    @PutMapping("/alterarMissao")
     public String alterarMissao(){
         return "Missão Alterada com Sucesso";
     }
 
-    @DeleteMapping("/deletar")
+    @DeleteMapping("/deletarMissao")
     public String deletarMissao(){
         return "Missão deletada com sucesso";
     }
 
     //Manda uma requisição para o banco de Dados para mostrar todas as missoes cadastradas
-    @GetMapping("/listar")
+    @GetMapping("/listarMissoes")
     public List<MissoesModel> listarMissoes(){
         return missoesService.listarMissoes();
     }
