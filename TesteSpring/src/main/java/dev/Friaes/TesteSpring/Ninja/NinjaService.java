@@ -28,9 +28,13 @@ public class NinjaService {
                 .toList(); //Java 16
     }
 
-    public NinjaModel listarNinjasPorID(Long id){
-        Optional<NinjaModel> ninjaPorID = repository.findById(id); //Utiliza-se Optional pra tratamento de Nullexceptionpointer
-        return ninjaPorID.orElse(null);
+    public NinjaDTO listarNinjasPorID(Long id){
+        return repository.findById(id)
+                .map(ninjaMapper::map)
+                .orElse(null);
+
+
+
     }
 
     public NinjaDTO criarNinja(NinjaDTO ninjaDTO){
@@ -41,6 +45,10 @@ public class NinjaService {
 
     public void deletarNinjaPorID(Long id){
         repository.deleteById(id);
+    }
+
+    public boolean ninjaExiste(Long id){
+        return repository.existsById(id);
     }
 
     public NinjaDTO alterarNinja(Long id, NinjaDTO ninjaAtualizado) {
