@@ -1,18 +1,11 @@
 package dev.Friaes.TesteSpring.Missoes;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.Friaes.TesteSpring.Ninja.NinjaModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_missoes")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 public class MissoesModel {
 
     @Id
@@ -24,4 +17,45 @@ public class MissoesModel {
     @OneToMany
     private List<NinjaModel> ninjas;
 
+    public MissoesModel() {
+    }
+
+    public MissoesModel(Long id, String nomeMissao, String rankMissao, List<NinjaModel> ninjas) {
+        this.id = id;
+        this.nomeMissao = nomeMissao;
+        this.rankMissao = rankMissao;
+        this.ninjas = ninjas;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNomeMissao() {
+        return nomeMissao;
+    }
+
+    public void setNomeMissao(String nomeMissao) {
+        this.nomeMissao = nomeMissao;
+    }
+
+    public String getRankMissao() {
+        return rankMissao;
+    }
+
+    public void setRankMissao(String rankMissao) {
+        this.rankMissao = rankMissao;
+    }
+
+    public List<NinjaModel> getNinjas() {
+        return ninjas;
+    }
+
+    public void setNinjas(List<NinjaModel> ninjas) {
+        this.ninjas = ninjas;
+    }
 }
